@@ -10,10 +10,11 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: Hello world action step
-        id: hello
-        uses: jdhall75/ansible-playbook-action@v1
+        id: ansible_run
+        uses: jdhall75/ansible-playbook-action@v2
         with:
-          who-to-greet: 'Mona the Octocat'
+          inventory_github: "https://github.com/jdhall75/ansible-inventory.git"
+          vault_pass: ${{ secrets.VAULT_PASS }}
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.ansible_run.outputs.time }}"
