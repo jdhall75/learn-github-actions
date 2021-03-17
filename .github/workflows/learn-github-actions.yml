@@ -6,8 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install -g bats
-      - run: bats -v
       - name: Run Ansible playbook
         id: ansible_run
         uses: jdhall75/ansible-playbook-action@main
