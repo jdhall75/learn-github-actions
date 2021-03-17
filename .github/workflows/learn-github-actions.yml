@@ -6,12 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
       - run: npm install -g bats
       - run: bats -v
-      - name: Hello world action step
+      - name: Run Ansible playbook
         id: ansible_run
-        uses: jdhall75/ansible-playbook-action@v2
+        uses: jdhall75/ansible-playbook-action
         with:
           inventory_github: "https://github.com/jdhall75/ansible-inventory.git"
           vault_pass: ${{ secrets.VAULT_PASS }}
