@@ -10,7 +10,7 @@ jobs:
       - run: bats -v
       - name: Run Ansible playbook
         id: ansible_run
-        uses: jdhall75/ansible-playbook-action@head
+        uses: jdhall75/ansible-playbook-action@main
         with:
           inventory_github: "https://github.com/jdhall75/ansible-inventory.git"
           vault_pass: ${{ secrets.VAULT_PASS }}
