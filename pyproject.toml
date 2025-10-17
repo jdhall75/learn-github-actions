@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=80", "setuptools-scm[simple]>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "learn-github-actions"
+dynamic = ["version"]
+description = "A small pypthon project to learn gha"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+say-hello = "learn_github_actions.main:run"
+

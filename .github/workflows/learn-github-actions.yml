@@ -1,17 +1,41 @@
----
-name: learn-github-actions
-on: [push]
+name: Build Python Package
+
+on:
+  push:
+    branches:
+      - main # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Trigger on pull requests to the main branch
+  workflow_dispatch: # Allows manual triggering of the workflow
+
 jobs:
-  run-ansible-playbook:
+  build:
     runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Run Ansible playbook
-        id: ansible_run
-        uses: jdhall75/ansible-playbook-action@main
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Action to check out your repository code
+
+      - name: Set up Python ${{ matrix.python-version }}   
+        uses: actions/setup-python@v5 # Action to set up Python
         with:
-          inventory_github: "https://github.com/jdhall75/ansible-inventory.git"
-          vault_pass: ${{ secrets.VAULT_PASS }}
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.ansible_run.outputs.time }}"
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel setuptools build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
